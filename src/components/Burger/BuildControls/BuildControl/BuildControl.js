@@ -3,10 +3,12 @@ import "./BuildControl.css";
 
 const buildControl = (props) => {
   return (
-    <div className="BuildControls">
+    <div className="BuildControl">
       <div className="Label">{props.label}</div>
       <button className="Less">-</button>
-      <button className="More">+</button>
+      <button onClick={props.added} className="More">
+        +
+      </button>
     </div>
   );
 };
