@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
-const INGREIENT_PRICES = {
+const INGREDIENT_PRICES = {
   salad: 0.3,
   bacon: 0.5,
   cheese: 0.4,
@@ -19,6 +21,7 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 3,
     purchaseble: false,
+    purchasing: false,
   };
 
   updatePurchaseState(ingredients) {
@@ -41,7 +44,7 @@ class BurgerBuilder extends Component {
       ...this.state.ingredients,
     };
     updatedIngredients[type] = updatedCount;
-    const priceAddition = INGREIENT_PRICES[type];
+    const priceAddition = INGREDIENT_PRICES[type];
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice + priceAddition;
     this.setState({
@@ -59,7 +62,7 @@ class BurgerBuilder extends Component {
       ...this.state.ingredients,
     };
     updatedIngredients[type] = updatedCount;
-    const priceDeduction = INGREIENT_PRICES[type];
+    const priceDeduction = INGREDIENT_PRICES[type];
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice - priceDeduction;
     this.setState({
@@ -67,6 +70,10 @@ class BurgerBuilder extends Component {
       totalPrice: newPrice,
     });
     this.updatePurchaseState(updatedIngredients);
+  };
+
+  purchaseHandler = () => {
+    this.setState({ purchasing: true });
   };
 
   render() {
@@ -78,8 +85,12 @@ class BurgerBuilder extends Component {
     }
     return (
       <React.Fragment>
+        <Modal show={this.state.purchasing}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
+          ordered={this.purchaseHandler}
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
