@@ -1,4 +1,6 @@
 import React from "react";
+import Button from "../../UI/Button/Button";
+
 const orderSummary = (props) => {
   const ingredientSummary = Object.keys(props.ingredients).map((el) => {
     return (
@@ -14,8 +16,12 @@ const orderSummary = (props) => {
       <p>Burger with ingredients:</p>
       <ul>{ingredientSummary}</ul>
       <p>Continue to checkout?</p>
-      <button>CANCEL</button>
-      <button>CONTINUE</button>
+      <Button btnType="Danger" clicked={props.purchaseCanceled}>
+        CANCEL
+      </Button>
+      <Button btnType="Success" clicked={props.purchaseContinued}>
+        CONTINUE
+      </Button>
     </React.Fragment>
   );
 };
